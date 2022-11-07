@@ -36,10 +36,10 @@ void j_psi_tagandprobe(){
     chain->SetBranchStatus("trig_L1_mu_thrNumber", 1);
     chain->SetBranchStatus("trig_L1_mu_source", 1);
     chain->SetBranchStatus("vxp_chi2", 1);
-		chain->SetBranchStatus("mu_ext_b_targetEtaVec", 1);
-		chain->SetBranchStatus("mu_ext_b_targetPhiVec", 1);
-		chain->SetBranchStatus("vxp_type", 1);
-		chain->SetBranchStatus("vxp_chi2", 1);
+    chain->SetBranchStatus("mu_ext_b_targetEtaVec", 1);
+    chain->SetBranchStatus("mu_ext_b_targetPhiVec", 1);
+    chain->SetBranchStatus("vxp_type", 1);
+    chain->SetBranchStatus("vxp_chi2", 1);
 
     std::vector<float> *mu_m = 0;
     std::vector<float> *mu_pt = 0;
@@ -59,10 +59,10 @@ void j_psi_tagandprobe(){
     std::vector<short> *trig_L1_mu_thrNumber = 0;
     std::vector<short> *trig_L1_mu_source = 0;
     std::vector<float> *vxp_chi2 = 0;
-		std::vector<std::vector<float>> *mu_ext_b_targetEtaVec = 0;
-		std::vector<std::vector<float>> *mu_ext_b_targetPhiVec = 0;
-		std::vector<float> *vxp_type = 0;
-		std::vector<float> *vxp_chi2 = 0;
+    std::vector<std::vector<float>> *mu_ext_b_targetEtaVec = 0;
+    std::vector<std::vector<float>> *mu_ext_b_targetPhiVec = 0;
+    std::vector<float> *vxp_type = 0;
+    std::vector<float> *vxp_chi2 = 0;
 
 
     chain->SetBranchAddress("mu_m", &mu_m);
@@ -83,10 +83,10 @@ void j_psi_tagandprobe(){
     chain->SetBranchAddress("trig_L1_mu_thrNumber", &trig_L1_mu_thrNumber);
     chain->SetBranchAddress("trig_L1_mu_source", &trig_L1_mu_source);
     chain->SetBranchAddress("vxp_chi2", &vxp_chi2);
-		chain->SetBranchAddress("mu_ext_b_targetEtaVec", mu_ext_b_targetEtaVec);
-		chain->SetBranchAddress("mu_ext_b_targetPhiVec", mu_ext_b_targetPhiVec);
-		chain->SetBranchAddress("vxp_type", vxp_type);
-		chain->SetBranchAddress("vxp_chi2", vxp_chi2);
+    chain->SetBranchAddress("mu_ext_b_targetEtaVec", mu_ext_b_targetEtaVec);
+    chain->SetBranchAddress("mu_ext_b_targetPhiVec", mu_ext_b_targetPhiVec);
+    chain->SetBranchAddress("vxp_type", vxp_type);
+    chain->SetBranchAddress("vxp_chi2", vxp_chi2);
 
     TCanvas *canvas1 = new TCanvas();
     TCanvas *canvas2 = new TCanvas();
@@ -240,7 +240,7 @@ void j_psi_tagandprobe(){
             }
         }
 				
-				if( vxp_chi2->at(0) > 20. ) continue;
+        if( vxp_chi2->at(0) > 20. ) continue;
 
         //if(flag_eventselection){
         for(int j = 0; j < mu_m->size(); j++){
@@ -323,13 +323,14 @@ void j_psi_tagandprobe(){
 
         for (int j = 0; j < mu_pair_number.size(); j++){
             //std::cout << "good" << std::endl;
+
+            if (mu_ext_b_targetEtaVec->at(trig_chain).size() == 0) continue;
+
             int tag_muon_number = mu_pair_number.at(j).first;
             int probe_muon_number = mu_pair_number.at(j).second;
 
             float tag_muon_pt = mu_pt->at(tag_muon_number) / 1000;
             float probe_muon_pt = mu_pt->at(probe_muon_number) / 1000;
-
-						bool flag_barrel = mu_eta
 
             TVector3 tag_muon;
             tag_muon.SetPtEtaPhi(mu_pt->at(tag_muon_number), mu_eta->at(tag_muon_number), mu_phi->at(tag_muon_number));
@@ -362,7 +363,7 @@ void j_psi_tagandprobe(){
                     probe_muon_eta_hist->Fill(mu_eta->at(probe_muon_number));
                     probe_muon_phi_hist->Fill(mu_phi->at(probe_muon_number));
                     tag_probe_deltaR_hist->Fill(tag_probe_deltaR);
-
+/*
                     //endcap
                     if( fabsf(mu_eta->at(probe_muon_number)) > 1.05 && fabsf(mu_eta->at(probe_muon_number)) < 2.4 ){
                         probe_muon_endcap_momentum_hist->Fill(probe_muon_pt);
@@ -370,6 +371,7 @@ void j_psi_tagandprobe(){
                         probe_muon_endcap_deltaEta_hist->Fill(mu_eta->at(probe_muon_number));
                         probe_muon_endcap_deltaPhi_hist->Fill(mu_phi->at(probe_muon_number));
                     }
+*/
                     // barrel
                     if( fabsf(mu_eta->at(probe_muon_number)) < 1.05 ){
                         probe_muon_barrel_momentum_hist->Fill(probe_muon_pt);
@@ -382,6 +384,9 @@ void j_psi_tagandprobe(){
                     for (int m = 0; m < trig_L1_mu_eta->size(); m++){
                         //RoI Number
                         if (trig_L1_mu_RoINumber->at(m) == -1) continue;
+
+                        //tag and probe to only RPC
+                        if (fabsf(mu_eta->at(probe_muon_number)) > 1.05 && fabsf(mu_eta->at(probe_muon_number)) < 2.4) continue;
                         
                         //threshold Number
                         int thr_Num = trig_L1_mu_thrNumber->at(m);
@@ -437,7 +442,7 @@ void j_psi_tagandprobe(){
                                 probe_thrNum6_pt->Fill(probe_muon_pt);
                                 probe_muon_deltaR_thr6_hist->Fill(L1_probe_DeltaR);
                             }
-
+/*
                             //endcap
                             if( fabsf(mu_eta->at(probe_muon_number)) > 1.05 && fabsf(mu_eta->at(probe_muon_number)) < 2.4){
                                 probe_muon_endcap_momentum_cut_hist->Fill(probe_muon_pt);
@@ -463,6 +468,7 @@ void j_psi_tagandprobe(){
                                     probe_muon_endcap_momentum_thr6_cut_hist->Fill(probe_muon_pt);
                                 }
                             }
+*/
                             // barrel
                             if( fabsf(mu_eta->at(probe_muon_number)) < 1.05){
                                 probe_muon_barrel_momentum_cut_hist->Fill(probe_muon_pt);
@@ -556,10 +562,10 @@ void j_psi_tagandprobe(){
     probe_muon_barrel_momentum_cut_hist->Write();
     //canvas10->SaveAs("img0930/L1_probe_muon_barrel_momentum_cut_hist.png");
     canvas11->cd();
-    probe_muon_endcap_momentum_hist->Draw();
-    probe_muon_endcap_momentum_hist->Write();
-    probe_muon_endcap_momentum_cut_hist->Draw("same");
-    probe_muon_endcap_momentum_cut_hist->Write();
+    //probe_muon_endcap_momentum_hist->Draw();
+    //probe_muon_endcap_momentum_hist->Write();
+    //probe_muon_endcap_momentum_cut_hist->Draw("same");
+    //probe_muon_endcap_momentum_cut_hist->Write();
     //canvas11->SaveAs("img0930/L1_probe_muon_endcap_momentum_cut_hist.png");
     canvas24->cd();
     hlt_deltaR_hist->Draw();
@@ -570,32 +576,32 @@ void j_psi_tagandprobe(){
     hlt_deltaR_pt_hist->Write();
     //canvas25->SaveAs("img0930/hlt_deltaR_pt_hist.png");
     canvas26->cd();
-    probe_muon_endcap_deltaEta_hist->Draw();
-    probe_muon_endcap_deltaEta_hist->Write();
+    //probe_muon_endcap_deltaEta_hist->Draw();
+    //probe_muon_endcap_deltaEta_hist->Write();
     //canvas26->SaveAs("img0930/probe_muon_endcap_deltaEta_hist.png");
     canvas27->cd();
-    probe_muon_endcap_deltaPhi_hist->Draw();
-    probe_muon_endcap_deltaPhi_hist->Write();
+    //probe_muon_endcap_deltaPhi_hist->Draw();
+    //probe_muon_endcap_deltaPhi_hist->Write();
     //canvas27->SaveAs("img0930/probe_muon_endcap_deltaPhi_hist.png");
     canvas28->cd();
     probe_muon_barrel_deltaEta_hist->Draw();
     probe_muon_barrel_deltaEta_hist->Write();
     //canvas28->SaveAs("img0930/probe_muon_barrel_deltaEta_hist.png");
     canvas29->cd();
-    probe_muon_endcap_deltaPhi_hist->Draw();
-    probe_muon_endcap_deltaPhi_hist->Write();
+    //probe_muon_endcap_deltaPhi_hist->Draw();
+    //probe_muon_endcap_deltaPhi_hist->Write();
     //canvas29->SaveAs("img0930/probe_muon_barrel_deltaPhi_hist.png");
     canvas30->cd();
-    probe_muon_endcap_deltaEta_hist->Draw();
-    probe_muon_endcap_deltaEta_hist->Write();
-    probe_muon_endcap_deltaEta_cut_hist->Draw("same");
-    probe_muon_endcap_deltaEta_cut_hist->Write();
+    //probe_muon_endcap_deltaEta_hist->Draw();
+    //probe_muon_endcap_deltaEta_hist->Write();
+    //probe_muon_endcap_deltaEta_cut_hist->Draw("same");
+    //probe_muon_endcap_deltaEta_cut_hist->Write();
     //canvas30->SaveAs("img0930/probe_muon_endcap_deltaEta_cut_hist.png");
     canvas31->cd();
-    probe_muon_endcap_deltaPhi_hist->Draw();
-    probe_muon_endcap_deltaPhi_hist->Write();
-    probe_muon_endcap_deltaPhi_cut_hist->Draw("same");
-    probe_muon_endcap_deltaPhi_cut_hist->Write();
+    //probe_muon_endcap_deltaPhi_hist->Draw();
+    //probe_muon_endcap_deltaPhi_hist->Write();
+    //probe_muon_endcap_deltaPhi_cut_hist->Draw("same");
+    //probe_muon_endcap_deltaPhi_cut_hist->Write();
     //canvas31->SaveAs("img0930/probe_muon_endcap_deltaPhi_cut_hist.png");
     canvas32->cd();
     probe_muon_barrel_deltaEta_hist->Draw();
@@ -622,10 +628,10 @@ void j_psi_tagandprobe(){
     probe_muon_phi_hist->Write();
     //canvas20->SaveAs("img0930/probe_muon_phi_hist.png");
     canvas35->cd();
-    probe_muon_endcap_deltaR_hist->Draw();
-    probe_muon_endcap_deltaR_hist->Write();
-    probe_muon_endcap_deltaR_cut_hist->Draw("same");
-    probe_muon_endcap_deltaR_cut_hist->Write();
+    //probe_muon_endcap_deltaR_hist->Draw();
+    //probe_muon_endcap_deltaR_hist->Write();
+    //probe_muon_endcap_deltaR_cut_hist->Draw("same");
+    //probe_muon_endcap_deltaR_cut_hist->Write();
     //canvas35->SaveAs("img0930/probe_muon_endcap_deltaR_cut_hist.png");
     canvas36->cd();
     probe_muon_barrel_deltaR_hist->Draw();
@@ -659,28 +665,28 @@ void j_psi_tagandprobe(){
     probe_thrNum6_pt->Write();
     //canvas42->SaveAs("img0930/probe_thrNum6_pt.png");
     canvas43->cd();
-    probe_muon_endcap_momentum_thr1_cut_hist->Draw();
-    probe_muon_endcap_momentum_thr1_cut_hist->Write();
+    //probe_muon_endcap_momentum_thr1_cut_hist->Draw();
+    //probe_muon_endcap_momentum_thr1_cut_hist->Write();
     //canvas43->SaveAs("img0930/probe_muon_endcap_momentum_thr1_cut_hist.png");
     canvas44->cd();
-    probe_muon_endcap_momentum_thr2_cut_hist->Draw();
-    probe_muon_endcap_momentum_thr2_cut_hist->Write();
+    //probe_muon_endcap_momentum_thr2_cut_hist->Draw();
+    //probe_muon_endcap_momentum_thr2_cut_hist->Write();
     //canvas44->SaveAs("img0930/probe_muon_endcap_momentum_thr2_cut_hist.png");
     canvas45->cd();
-    probe_muon_endcap_momentum_thr3_cut_hist->Draw();
-    probe_muon_endcap_momentum_thr3_cut_hist->Write();
+    //probe_muon_endcap_momentum_thr3_cut_hist->Draw();
+    //probe_muon_endcap_momentum_thr3_cut_hist->Write();
     //canvas45->SaveAs("img0930/probe_muon_endcap_momentum_thr3_cut_hist.png");
     canvas46->cd();
-    probe_muon_endcap_momentum_thr4_cut_hist->Draw();
-    probe_muon_endcap_momentum_thr4_cut_hist->Write();
+    //probe_muon_endcap_momentum_thr4_cut_hist->Draw();
+    //probe_muon_endcap_momentum_thr4_cut_hist->Write();
     //canvas46->SaveAs("img0930/probe_muon_endcap_momentum_thr4_cut_hist.png");
     canvas47->cd();
-    probe_muon_endcap_momentum_thr5_cut_hist->Draw();
-    probe_muon_endcap_momentum_thr5_cut_hist->Write();
+    //probe_muon_endcap_momentum_thr5_cut_hist->Draw();
+    //probe_muon_endcap_momentum_thr5_cut_hist->Write();
     //canvas47->SaveAs("img0930/probe_muon_endcap_momentum_thr5_cut_hist.png");
     canvas48->cd();
-    probe_muon_endcap_momentum_thr6_cut_hist->Draw();
-    probe_muon_endcap_momentum_thr6_cut_hist->Write();
+    //probe_muon_endcap_momentum_thr6_cut_hist->Draw();
+    //probe_muon_endcap_momentum_thr6_cut_hist->Write();
     //canvas48->SaveAs("img0930/probe_muon_endcap_momentum_thr6_cut_hist.png");
     probe_muon_deltaR_thr1_hist->Write();
     probe_muon_deltaR_thr2_hist->Write();
