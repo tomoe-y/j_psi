@@ -4,6 +4,7 @@
 *.out
 *.txt
 *.json
+
 img/
 img0910/
 img0911/
@@ -20,3 +21,8 @@ img1007/
 img1008/
 img1013/
 img1017/
+
+Dict.cc
+.asetup.save
+Dict_rdict.pcm
+LinkDef.h

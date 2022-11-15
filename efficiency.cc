@@ -12,21 +12,23 @@
 #include "TEfficiency.h"
 
 void efficiency(){
-    TFile *file = new TFile("img1006/hist1006_2.root");
-    
+    TFile *file = new TFile("img1107/hist1107.root");
+    /*
     TH1D *probe_muon_endcap_momentum_thr1_cut_hist = (TH1D*)file->Get("probe_muon_endcap_momentum_thr1_cut_hist");
     TH1D *probe_muon_endcap_momentum_thr2_cut_hist = (TH1D*)file->Get("probe_muon_endcap_momentum_thr2_cut_hist");
     TH1D *probe_muon_endcap_momentum_thr3_cut_hist = (TH1D*)file->Get("probe_muon_endcap_momentum_thr3_cut_hist");
     TH1D *probe_muon_endcap_momentum_thr4_cut_hist = (TH1D*)file->Get("probe_muon_endcap_momentum_thr4_cut_hist");
     TH1D *probe_muon_endcap_momentum_thr5_cut_hist = (TH1D*)file->Get("probe_muon_endcap_momentum_thr5_cut_hist");
     TH1D *probe_muon_endcap_momentum_thr6_cut_hist = (TH1D*)file->Get("probe_muon_endcap_momentum_thr6_cut_hist");
-    TH1D *probe_muon_barrel_momentum_thr1_cut_hist = (TH1D*)file->Get("probe_muon_barrel_momentum_thr1_cut_hist");
+    */
+		TH1D *probe_muon_barrel_momentum_thr1_cut_hist = (TH1D*)file->Get("probe_muon_barrel_momentum_thr1_cut_hist");
     TH1D *probe_muon_barrel_momentum_thr2_cut_hist = (TH1D*)file->Get("probe_muon_barrel_momentum_thr2_cut_hist");
     TH1D *probe_muon_barrel_momentum_thr3_cut_hist = (TH1D*)file->Get("probe_muon_barrel_momentum_thr3_cut_hist");
     TH1D *probe_muon_barrel_momentum_thr4_cut_hist = (TH1D*)file->Get("probe_muon_barrel_momentum_thr4_cut_hist");
     TH1D *probe_muon_barrel_momentum_thr5_cut_hist = (TH1D*)file->Get("probe_muon_barrel_momentum_thr5_cut_hist");
     TH1D *probe_muon_barrel_momentum_thr6_cut_hist = (TH1D*)file->Get("probe_muon_barrel_momentum_thr6_cut_hist");
-    TH1D *probe_muon_endcap_momentum_cut_hist = (TH1D*)file->Get("probe_muon_endcap_momentum_cut_hist");
+    /*
+		TH1D *probe_muon_endcap_momentum_cut_hist = (TH1D*)file->Get("probe_muon_endcap_momentum_cut_hist");
     TH1D *probe_muon_endcap_momentum_hist = (TH1D*)file->Get("probe_muon_endcap_momentum_hist");
     TH1D *probe_muon_endcap_deltaEta_cut_hist = (TH1D*)file->Get("probe_muon_endcap_deltaEta_cut_hist");
     TH1D *probe_muon_endcap_deltaEta_hist = (TH1D*)file->Get("probe_muon_endcap_deltaEta_hist");
@@ -34,7 +36,8 @@ void efficiency(){
     TH1D *probe_muon_endcap_deltaPhi_hist = (TH1D*)file->Get("probe_muon_endcap_deltaPhi_hist");
     TH1D *probe_muon_endcap_deltaR_cut_hist = (TH1D*)file->Get("probe_muon_endcap_deltaR_cut_hist");
     TH1D *probe_muon_endcap_deltaR_hist = (TH1D*)file->Get("probe_muon_endcap_deltaR_hist");
-    TH1D *probe_muon_barrel_momentum_cut_hist = (TH1D*)file->Get("probe_muon_barrel_momentum_cut_hist");
+    */
+		TH1D *probe_muon_barrel_momentum_cut_hist = (TH1D*)file->Get("probe_muon_barrel_momentum_cut_hist");
     TH1D *probe_muon_barrel_momentum_hist = (TH1D*)file->Get("probe_muon_barrel_momentum_hist");
     TH1D *probe_muon_barrel_deltaEta_cut_hist = (TH1D*)file->Get("probe_muon_barrel_deltaEta_cut_hist");
     TH1D *probe_muon_barrel_deltaEta_hist = (TH1D*)file->Get("probe_muon_barrel_deltaEta_hist");
@@ -72,7 +75,7 @@ void efficiency(){
     TCanvas *canvas13 = new TCanvas();
     
     // efficiency
-
+/*
     TEfficiency *pEff_endcap = new TEfficiency(*probe_muon_endcap_momentum_cut_hist, *probe_muon_endcap_momentum_hist);
     pEff_endcap->SetTitle("efficiency in endcap;pt[GeV];efficiency");
 
@@ -103,7 +106,7 @@ void efficiency(){
 
     TEfficiency *R_Eff_endcap = new TEfficiency(*probe_muon_endcap_deltaR_cut_hist, *probe_muon_endcap_deltaR_hist);
     R_Eff_endcap->SetTitle("efficiency in endcap;pt[GeV];efficiency");
-
+*/
     TEfficiency *pEff_barrel = new TEfficiency(*probe_muon_barrel_momentum_cut_hist, *probe_muon_barrel_momentum_hist);
     pEff_barrel->SetTitle("efficiency in barrel;pt[GeV];efficiency");
 
@@ -121,6 +124,7 @@ void efficiency(){
 
     //Draw
     canvas1->cd();
+/*
     probe_muon_endcap_momentum_thr1_cut_hist->Draw();
     probe_muon_endcap_momentum_thr2_cut_hist->SetLineColor(3);
     probe_muon_endcap_momentum_thr2_cut_hist->Draw("same");
@@ -133,7 +137,7 @@ void efficiency(){
     probe_muon_endcap_momentum_thr6_cut_hist->SetLineColor(7);
     probe_muon_endcap_momentum_thr6_cut_hist->Draw("same");
     //canvas1->SaveAs("img1004/probe_endcap_momentum.png");
-
+*/
     canvas2->cd();
     probe_thrNum1_pt->Draw();
     probe_thrNum2_pt->SetLineColor(3);
@@ -154,10 +158,11 @@ void efficiency(){
     canvas4->cd();
     pEff_barrel->Draw();
     //canvas4->SaveAs("img1004/efficiency_barrel.png");
-    canvas5->cd();
-    pEff_endcap->Draw("AP");
+    //canvas5->cd();
+    //pEff_endcap->Draw("AP");
     //canvas5->SaveAs("img1004/efficiency_endcap.png");
-    canvas6->cd();
+    /*
+		canvas6->cd();
     pEff_endcap_thr1->Draw("AP");
     canvas7->cd();
     pEff_endcap_thr2->Draw("AP");
@@ -169,6 +174,7 @@ void efficiency(){
     pEff_endcap_thr5->Draw("AP");
     canvas11->cd();
     pEff_endcap_thr6->Draw("AP");
+		*/
     canvas12->cd();
     probe_muon_deltaR_thr1_hist->Draw();
     probe_muon_deltaR_thr2_hist->SetLineColor(3);
